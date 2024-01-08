@@ -1,7 +1,27 @@
+#include "../components/components.h"
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+
+class Compass : private Component
+{
+
+public: 
+  float readCompass(void); 
+  void init();
+  Compass() {
+    
+  }
+
+private:
+
+
+};
+
+void Compass::init() {
+
+}
   
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
@@ -14,7 +34,7 @@ void setup(void)
   if(!bno.begin())
   {
     /* There was a problem detecting the BNO055 ... check your connections */
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR! 🤓🤓🤓"); 
     while(1);
   }
   
