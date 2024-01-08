@@ -11,22 +11,17 @@ public:
   float readCompass(void); 
   void init();
   Compass() {
-    
+    init();
   }
 
 private:
-
+  Adafruit_BNO055 bno;
 
 };
 
-void Compass::init() {
-
-}
-  
-Adafruit_BNO055 bno = Adafruit_BNO055(55);
-
-void setup(void) 
+void Compass::init() 
 {
+  bno = Adafruit_BNO055(55);
   Serial.begin(9600);
   Serial.println("Orientation Sensor Test"); Serial.println("");
   
@@ -43,7 +38,7 @@ void setup(void)
   bno.setExtCrystalUse(true);
 }
 
-void loop(void) 
+float readCompass(void)
 {
   /* Get a new sensor event */ 
   sensors_event_t event; 
