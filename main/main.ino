@@ -1,7 +1,13 @@
 #include "./components/components.h"
 
 void setup() {
-  // put your setup code here, to run once:
+  Serial.begin(9600);
+  Serial.println("Beginning initialization...");
+
+  int pins[] = {1, 2};
+  int modes[] = {OUTPUT, OUTPUT};
+
+  Component x = Component(pins, modes, 2, "motor");
 
 }
 
