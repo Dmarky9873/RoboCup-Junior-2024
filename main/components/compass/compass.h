@@ -1,7 +1,27 @@
+#include "../components/components.h"
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+
+class Compass : private Component
+{
+
+public: 
+  float readCompass(void); 
+  void init();
+  Compass() {
+    
+  }
+
+private:
+
+
+};
+
+void Compass::init() {
+
+}
   
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
