@@ -5,13 +5,12 @@ void setup() {
   Serial.println("Beginning initialization...");
 
   int pins[] = {1, 2};
-  int modes[] = {OUTPUT, OUTPUT};
+  uint8_t modes[] = {OUTPUT, OUTPUT};
 
-  Component x = Component(pins, modes, 2, "motor");
-
+  Component x(pins, modes, 2, "motor");
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  
 }
