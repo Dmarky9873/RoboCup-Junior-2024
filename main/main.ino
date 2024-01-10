@@ -1,13 +1,13 @@
-#include "./components/components.h"
+// #include "./components/components.h"
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Beginning initialization...");
+  // Serial.println("Beginning initialization...");
 
-  int pins[] = { 1, 2 };
-  uint8_t modes[] = { OUTPUT, OUTPUT };
+  // int pins[] = { 1, 2 };
+  // uint8_t modes[] = { OUTPUT, OUTPUT };
 
-  Component x(pins, modes, 2, "motor");
+  // Component x(pins, modes, 2, "motor");
 }
 
 void loop() {
