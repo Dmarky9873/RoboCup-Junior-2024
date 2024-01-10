@@ -2,6 +2,7 @@
 #define COMPONENT_H
 
 #include <string.h>
+
 #define UNKNOWN_PIN 0xFF
 
 class Component {
