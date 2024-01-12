@@ -14,6 +14,6 @@ void setup() {
 
 void loop() {
   Serial.print("Compass Reading: ");
-  Serial.println(compass.readCompass("hi"));
+  compass.readCompass("hi");
 }
 
