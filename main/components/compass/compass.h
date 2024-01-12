@@ -7,21 +7,17 @@
 class Compass : private Component {
 
 public:
-  float readCompass(void);
-  void init();
+  void readCompass(String x);
 
   //constructor
-  Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)
-  : Component(pin_numbers, modes, number_of_pins, component_name)
-  {
-    init();
-  }
+  Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name);
 
 private:
   Adafruit_BNO055 bno;
 };
 
-void Compass::init() {
+void Compass::Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name) 
+: Component(pin_numbers, modes, number_of_pins, component_name) {
   bno = Adafruit_BNO055(55);
   Serial.begin(9600);
   Serial.println("Orientation Sensor Test");
@@ -31,7 +27,10 @@ void Compass::init() {
   if (!bno.begin()) {
     /* There was a problem detecting the BNO055 ... check your connections */
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR! 🤓🤓🤓");
-    while (1);
+    while(1);
+  }
+  else {
+    Serial.println("worked");
   }
 
   delay(1000);
@@ -39,21 +38,7 @@ void Compass::init() {
   bno.setExtCrystalUse(true);
 }
 
-float Compass::readCompass(void) {
+void Compass::readCompass(String x) {
   /* Get a new sensor event */
-  sensors_event_t event;
-  bno.getEvent(&event);
-
-  /* Display the floating point data */
-  // Serial.print("X: ");
-  // Serial.print(event.orientation.x, 4);
-  // Serial.print("\tY: ");
-  // Serial.print(event.orientation.y, 4);
-  // Serial.print("\tZ: ");
-  // Serial.print(event.orientation.z, 4);
-  // Serial.println("");
-  
-  delay(100);
-
-  return event.orientation.z;
+  Serial.println(x)
 }
