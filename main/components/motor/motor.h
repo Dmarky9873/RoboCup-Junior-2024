@@ -1,15 +1,20 @@
+#ifndef MOTOR_H
+#define MOTOR_H
+
 #include "../components.h"
+#include <Wire.h>
+#include <Arduino.h>
 
 class Motor : private Component {
 public:
-  Motor(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name);
-  void ControlMotor(int speed, Motor motor);
+  Motor(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name) : Component(pin_numbers, modes, number_of_pins, component_name) {
+    init();
+  }
+
+  void setDirection(bool forward);
 };
 
-Motor::Motor(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name){
+void Motor::setDirection(bool forward) {
+}
 
-};
-
-Motor::ControlMotor(int speed, Motor motor){
-  
-};
+#endif
