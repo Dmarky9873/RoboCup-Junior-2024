@@ -4,22 +4,24 @@
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 
-class Compass : private Component {
+class Compass : public Component {
 
-public:
-  void readCompass(String x);
+  public:
+    float readCompass();
+    void init();
 
-  //constructor
-  Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name);
+    //constructor 
+    Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name) : 
+    Component(pin_numbers, modes, number_of_pins, component_name) {
+      
+    };
 
-private:
-  Adafruit_BNO055 bno;
-};
+  private:
+    Adafruit_BNO055 bno;
+  };
 
-void Compass::Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name) 
-: Component(pin_numbers, modes, number_of_pins, component_name) {
+void Compass::init() {
   bno = Adafruit_BNO055(55);
-  Serial.begin(9600);
   Serial.println("Orientation Sensor Test");
   Serial.println("");
 
@@ -27,10 +29,7 @@ void Compass::Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, St
   if (!bno.begin()) {
     /* There was a problem detecting the BNO055 ... check your connections */
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR! 🤓🤓🤓");
-    while(1);
-  }
-  else {
-    Serial.println("worked");
+    while (1);
   }
 
   delay(1000);
@@ -38,7 +37,21 @@ void Compass::Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, St
   bno.setExtCrystalUse(true);
 }
 
-void Compass::readCompass(String x) {
+float Compass::readCompass() {
   /* Get a new sensor event */
-  Serial.println(x)
+  sensors_event_t event;
+  bno.getEvent(&event);
+
+  /* Display the floating point data */
+  // Serial.print("X: ");
+  // Serial.print(event.orientation.x, 4);
+  // Serial.print("\tY: ");
+  // Serial.print(event.orientation.y, 4);
+  // Serial.print("\tZ: ");
+  // Serial.print(event.orientation.z, 4);
+  // Serial.println("");
+  
+  delay(100);
+
+  return event.orientation.z;
 }

@@ -7,8 +7,12 @@
 
 class Component {
 public:
+  void setUp();
   uint8_t getPinMode(uint8_t pin);
-  Component(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name);
+  Component(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name) 
+  : num_pins(number_of_pins), name(component_name), pin_nums(pin_numbers), mds(modes) {
+
+  };
 
 private:
   const int num_pins;
@@ -17,8 +21,7 @@ private:
   const uint8_t *mds;
 };
 
-Component::Component(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)
-  : num_pins(number_of_pins), name(component_name), pin_nums(pin_numbers), mds(modes) {
+void Component::setUp() {
   Serial.print("Initializing ");
   Serial.print(name);
   Serial.println("...");
