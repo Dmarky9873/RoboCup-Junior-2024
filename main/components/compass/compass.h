@@ -7,17 +7,18 @@
 class Compass : public Component {
 
   public:
+    // TODO: Comment these
     float readCompass();
     void init();
 
-    //constructor 
+    // TODO: Comment this
     Compass(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name) : 
     Component(pin_numbers, modes, number_of_pins, component_name) {
       
     };
 
   private:
-    Adafruit_BNO055 bno;
+    Adafruit_BNO055 bno; // Instance of the Adafruit_BNO055 class (the compass library). 
   };
 
 void Compass::init() {
