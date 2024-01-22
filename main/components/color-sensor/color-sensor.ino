@@ -1,41 +1,45 @@
-// /***************************************************
-// Simple example of reading the MCP3008 analog input channels and printing
-// them all out.
+#include <Adafruit_MCP3008.h>
+#include <SPI.h>
 
-// Author: Carter Nelson
-// License: Public Domain
-// ****************************************************/
 
-// #include <Adafruit_MCP3008.h>
+// Define the number of MCP3008 chips connected
+const int numChips = 2;
 
-// Adafruit_MCP3008 adc;
 
-// int count = 0;
+// Define the SPI CS (Chip Select) pins for each MCP3008 chip
+const int csPins[] = {22, 24}; // Example: MCP3008 #1 CS pin = 10, MCP3008 #2 CS pin = 9
 
-// void setup() {
-//   Serial.begin(9600);
-//   while (!Serial);
 
-//   Serial.println("MCP3008 simple test.");
+// Create an array of MCP3008 objects
+Adafruit_MCP3008 mcp[numChips];
 
-//   // Hardware SPI (specify CS, use any available digital)
-//   // Can use defaults if available, ex: UNO (SS=10) or Huzzah (SS=15)
-//   adc.begin();
-//   // Feather 32u4 (SS=17) or M0 (SS=16), defaults SS not broken out, must specify
-//   //adc.begin(10);  
 
-//   // Software SPI (specify all, use any available digital)
-//   // (sck, mosi, miso, cs);
-//   //adc.begin(13, 11, 12, 10);
-// }
+void setup() {
+Serial.begin(115200);
+SPI.begin(); // Initialize SPI communication
 
-// void loop() {
-//   for (int chan=0; chan<8; chan++) {
-//     Serial.print(adc.readADC(chan)); Serial.print("\t");
-//   }
 
-//   Serial.print("["); Serial.print(count); Serial.println("]");
-//   count++;
-  
-//   delay(1000);
-// }
+// Initialize each MCP3008 object with the corresponding CS pin
+for (int i = 0; i < numChips; i++) {
+  mcp[i].begin(csPins[i]);
+  }
+}
+
+
+void loop() {
+for (int i = 0; i < numChips; i++) {
+// Read analog input from each MCP3008 channel (0-7)
+  for (int channel = 0; channel < 8; channel++) {
+    int value = mcp[i].readADC(channel);
+      Serial.print("Chip ");
+      Serial.print(i + 1);
+      Serial.print(", Channel ");
+      Serial.print(channel);
+      Serial.print(": ");
+      Serial.println(value);
+    }
+    Serial.println();
+  }
+
+  delay(250); // Wait for a second before reading again
+}
