@@ -21,6 +21,8 @@ class Compass : public Component {
     Adafruit_BNO055 bno; // Instance of the Adafruit_BNO055 class (the compass library). 
   };
 
+
+// TODO: Comment this
 void Compass::init() {
   setUp();
   bno = Adafruit_BNO055(55);

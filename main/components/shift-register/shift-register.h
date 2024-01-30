@@ -5,11 +5,15 @@ class Shift_Register : public Component {
   public: 
   
     /**
-      * Reads all 8 bits of the serial output of the chip.
-      * 
-      * @return integer array of size `CHIPSIZE` where each int is a respective chip bit.
-      */
-    int* readChip();
+    * Reads the values stored in a set of daisy-chained shift registers.
+    * 
+    * @param numOfChips the number of chips daisy-chained.
+    *
+    * @param sizeOfChips the size of the chips.
+    *
+    * @returns a 2D integer array with dimentions [`numOfChips` x `sizeOfChips`] where each value is a value once stored on the corresponding chips address.
+    */
+    int** readChips();
 
     /**
     * Constructor, sets private variables to params.

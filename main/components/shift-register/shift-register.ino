@@ -1,6 +1,7 @@
 int ioSelect = 2;
 int clockPulse = 3;
-int dataOut = 4;
+int dataPin = 4;
+int NUM_CHIPS = 3;
 
 int CHIPSIZE = 8;
 
@@ -9,19 +10,31 @@ void setup() {
 
   pinMode(ioSelect, OUTPUT);
   pinMode(clockPulse, OUTPUT);
-  pinMode(dataOut, INPUT);
+  pinMode(dataPin, INPUT);
 
 
 }
 
 void loop() {
-  int* vals = readChip();
+  int** chipValues = readChips(NUM_CHIPS, CHIPSIZE);
+  for (int chip = 0; chip < NUM_CHIPS; chip++) {
+    Serial.print("Chip #");
+    Serial.print(chip + 1);
+    Serial.print(": [ ");
+    for (int addr = 0; addr < CHIPSIZE; addr++) {
+      Serial.print(chipValues[chip][addr]);
+      Serial.print(" ");
+    }
+    Serial.print("]");
+    Serial.println();
+  }
+  delay(1000);
 }
 
 /**
-  * Sets the chip to accept parallel input or produce serial output.
+  * Sets the chip to accept parallel input or serial input.
   *
-  * @param input_type type of input to set chip to. 0 for parallel input 1 for serial.
+  * @param input_type type of input to set chip to. 0 for parallel input, and 1 for serial input.
   */
 void ioType(int io_type) {
   digitalWrite(ioSelect, io_type);
@@ -38,25 +51,26 @@ void clkPulse() {
 }
 
 /**
-  * Shifts in parallel data to the chip.
+  * Shifts in parallel data to the shift register.
   */
-void shiftIN() {
+void chipParallelIn() {
   ioType(0);
   clkPulse();
   ioType(1);
 }
 
 /**
-  * Reads all 8 bits of the serial output of the chip.
+  * Reads all 8 bits of the serial output of a shift register.
+  *
+  * @param sizeOfChips the size of the chips being read
   * 
   * @return integer array of size `CHIPSIZE` where each int is a respective chip bit.
   */
-int* readChip() {
-  shiftIN();
-  int* vals = new int[CHIPSIZE];
+int* readChip(int sizeOfChips) {
+  int* vals = new int[sizeOfChips];
 
-  for(int j = 0; j < CHIPSIZE; j++) {
-    int val = digitalRead(dataOut);
+  for(int j = 0; j < sizeOfChips; j++) {
+    int val = digitalRead(dataPin);
 
     vals[j] = val;
 
@@ -64,4 +78,28 @@ int* readChip() {
   }
 
   return vals;
+}
+
+
+/**
+  * Reads the values stored in a set of daisy-chained shift registers.
+  * 
+  * @param numOfChips the number of chips daisy-chained.
+  *
+  * @param sizeOfChips the size of the chips.
+  *
+  * @returns a 2D integer array with dimentions [`numOfChips` x `sizeOfChips`] where each value is a value once stored on the corresponding chips address.
+  */
+int** readChips(int numOfChips, int sizeOfChips) {
+  int** chipValues = new int*[numOfChips];
+  for (int i = 0; i < numOfChips; ++i) {
+    chipValues[i] = new int[sizeOfChips];
+  }
+  
+  chipParallelIn();
+  for (int chip = 0; chip < numOfChips; chip++) {
+    chipValues[chip] = readChip(sizeOfChips);
+  }
+
+  return chipValues;
 }
