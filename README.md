@@ -28,5 +28,10 @@ RoboCup is an international robotics tournament held in Europe every year. More 
 
 ## 1. Components
 ### Components Superclass
-#### Abstract
-The components class is a parent class for every component. Every component has shared features, and this parent class condenses them all into a single constructor for ease of use.
+#### Description
+The components class is a parent class for every component. Every component has shared features (multiple pins, a name, etc.), and this parent class condenses them all into a single constructor for ease of use.
+#### Public:
+* `setUp`: Initializes each pin in `pin_numbers[]` to their respective mode in `modes[]`. No returns or params. 
+* `getPinMode(uint8_t pin)`: Gets the pinMode of param `pin`. Returns `INPUT`, `OUTPUT`, or `UNKNOWN_PIN`.
+* `Component(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)`: Constructor, sets private variables to params.
+
