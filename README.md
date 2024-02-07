@@ -31,7 +31,7 @@ RoboCup is an international robotics tournament held in Europe every year. More 
 #### Description
 The components class is a parent class for every component. Every component has shared features (multiple pins, a name, etc.), and this parent class condenses them all into a single constructor for ease of use.
 #### Public:
-* `setUp`: Initializes each pin in `pin_numbers[]` to their respective mode in `modes[]`. No returns or params. 
+* `setUp()`: Initializes each pin in `pin_numbers[]` to their respective mode in `modes[]`. No returns or params. 
 * `getPinMode(uint8_t pin)`: Gets the pinMode of param `pin`. Returns `INPUT`, `OUTPUT`, or `UNKNOWN_PIN`.
 * `Component(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)`: Constructor, sets private variables to params.
 #### Private:
@@ -39,3 +39,13 @@ The components class is a parent class for every component. Every component has 
 * `String name`: Name of the component.
 * `int *pin_nums`: A parallel array to `mds`, array of pin numbers used within the component.
 * `uint8_t *mds`: A parallel array to `pin_nums`, array of modes used within the component.
+
+### Shift Register
+#### Description
+The shift register class is a class for the daisy-chained shift registers used within the robot. Their job is to turn the 24 inputs of the IR sensors into just three pins. The shift registers output the bits of info through an info bus, enabling the microcontroller to read the bits one-by-one.
+#### Public:
+* `readchips(int numOfChips, int sizeOfChips)`: Reads the values stored in a set of daisy-chained shift registers.
+* `Shift_Register(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)`: Constructor, sets private variables to params.
+#### Private:
+* `int CHIPSIZE`: Number of bits of data that the chip can manage.
+* `ioType(int io_type)`: Sets the chip to accept parallel or serial input.
