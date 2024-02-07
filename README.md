@@ -34,4 +34,8 @@ The components class is a parent class for every component. Every component has 
 * `setUp`: Initializes each pin in `pin_numbers[]` to their respective mode in `modes[]`. No returns or params. 
 * `getPinMode(uint8_t pin)`: Gets the pinMode of param `pin`. Returns `INPUT`, `OUTPUT`, or `UNKNOWN_PIN`.
 * `Component(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)`: Constructor, sets private variables to params.
-
+#### Private:
+* `int num_pins`: Number of pins used within the component.
+* `String name`: Name of the component.
+* `int *pin_nums`: A parallel array to `mds`, array of pin numbers used within the component.
+* `uint8_t *mds`: A parallel array to `pin_nums`, array of modes used within the component.
