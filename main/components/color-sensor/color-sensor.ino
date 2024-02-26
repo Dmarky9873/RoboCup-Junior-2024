@@ -1,45 +1,53 @@
 #include <Adafruit_MCP3008.h>
 #include <SPI.h>
 
+#define NUM_CHANNELS 8
+#define NUM_CHIPS 3
 
-// Define the number of MCP3008 chips connected
-const int numChips = 2;
+#define WHITE 1600
 
+const int csPins[] = {8, 9, 10};
 
-// Define the SPI CS (Chip Select) pins for each MCP3008 chip
-const int csPins[] = {22, 24}; // Example: MCP3008 #1 CS pin = 10, MCP3008 #2 CS pin = 9
+Adafruit_MCP3008 chips[NUM_CHIPS];
 
+/* 
 
-// Create an array of MCP3008 objects
-Adafruit_MCP3008 mcp[numChips];
+  TO-DO:
+  - set detection boundaries (MAX 2047, MIN 0)
+  - determine position of respective channels
+    - use positions to determine where oob is  
 
+*/
 
 void setup() {
-Serial.begin(115200);
-SPI.begin(); // Initialize SPI communication
+  Serial.begin(115200);
+  SPI.begin();
 
+  Serial.println("START");
 
-// Initialize each MCP3008 object with the corresponding CS pin
-for (int i = 0; i < numChips; i++) {
-  mcp[i].begin(csPins[i]);
+  for (int i = 0; i < NUM_CHIPS; i++) {
+    if (chips[i].begin(csPins[i])) {
+      Serial.print("Chip ");
+      Serial.print(i + 1);
+      Serial.println(" START");
+    }
   }
 }
 
-
 void loop() {
-for (int i = 0; i < numChips; i++) {
-// Read analog input from each MCP3008 channel (0-7)
-  for (int channel = 0; channel < 8; channel++) {
-    int value = mcp[i].readADC(channel);
-      Serial.print("Chip ");
-      Serial.print(i + 1);
-      Serial.print(", Channel ");
-      Serial.print(channel);
-      Serial.print(": ");
-      Serial.println(value);
-    }
+  for (int i = 0; i < NUM_CHIPS; i++) {
     Serial.println();
+    Serial.print("Chip ");
+    Serial.print(i + 1);
+    Serial.println();
+    for (int j = 0; j < NUM_CHANNELS; j++) {
+      int val = chips[i].readADC(j);
+      Serial.print("Channel ");
+      Serial.print(j);
+      Serial.print(": ");
+      Serial.println(val);
+    }
   }
 
-  delay(250); // Wait for a second before reading again
+  delay(1000);
 }
