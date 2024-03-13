@@ -13,13 +13,6 @@ public:
   void setUp();
 
   /**
-    * Gets the pinmode of `pin`.
-    *
-    * @returns the pinmode of `pin` (`INPUT`, `OUTPUT` or `UNKNOWN_PIN`)
-    */
-  uint8_t getPinMode(uint8_t pin);
-
-  /**
     * Constructor, sets private variables to params.
     *
     * @param `pin_numbers[]` integer array of pin-numbers that relate to an instance of the component class.
@@ -53,42 +46,7 @@ void Component::setUp() {
     Serial.println();
 
     pinMode(pin_nums[i], mds[i]);
-
-    Serial.print("Pin ");
-    Serial.print(pin_nums[i]);
-    Serial.print(" to ");
-
-    if (getPinMode(pin_nums[i]) == INPUT) {
-      Serial.println("INPUT");
-    } else if (getPinMode(pin_nums[i]) == OUTPUT) {
-      Serial.println("OUTPUT");
-    } else {
-      Serial.println("UNKNOWN PIN");
-    }
   }
-}
-
-// TODO: Comment this
-uint8_t Component::getPinMode(uint8_t pin) {
-  uint8_t bit = digitalPinToBitMask(pin);
-  uint8_t port = digitalPinToPort(pin);
-
-  if (NOT_A_PIN == port) return UNKNOWN_PIN;
-
-  if (0 == bit) return UNKNOWN_PIN;
-
-  if (bit & bit - 1) return UNKNOWN_PIN;
-
-  volatile uint8_t *reg, *out;
-  reg = portModeRegister(port);
-  out = portOutputRegister(port);
-
-  if (*reg & bit)
-    return OUTPUT;
-  else if (*out & bit)
-    return INPUT_PULLUP;
-  else
-    return INPUT;
 }
 
 #endif
