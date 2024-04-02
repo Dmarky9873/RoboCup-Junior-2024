@@ -28,6 +28,7 @@ void loop() {
     Serial.print("]");
     Serial.println();
   }
+  Serial.println("hello");
   delay(1000);
 }
 
