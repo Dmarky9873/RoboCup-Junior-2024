@@ -79,15 +79,8 @@ struct Movement {
 
 };
 
-
-
-
-
-
-
-
-
-
+//Moved movement out of loop function
+Movement m;
 
 void setup() {
   Serial.begin(9600);
@@ -96,22 +89,21 @@ void setup() {
 }
 
 void loop() {
-  Movement m;
-
-  m.move_north(50);
-  delay(1000);
+  point_north(210);
 }
 
 
 void point_north(int speed) {
   Movement m;
-  if (is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
-    m.brake();
-  } else if (readCompass() > 0){
-    m.rotate(210);
-  } else {
-    m.rotate(-210);
+  while (!is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
+    if (readCompass() > 0) {
+      m.rotate(speed);
+    } 
+    else {
+      m.rotate(-speed);
+    }
   }
+  m.brake();
 }
 
 
