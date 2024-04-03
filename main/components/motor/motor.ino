@@ -38,6 +38,16 @@ struct Motor {
 };
 
 struct Movement {
+  private:
+    // Motor motor_0(3 /* Speed pin */, 4 /* Direction pin */, 2 /* Brake pin */);
+    // Motor motor_1(6 /* Speed pin */, 7 /* Direction pin */, 5 /* Brake pin */);
+    // Motor motor_2(9 /* Speed pin */, 10 /* Direction pin */, 8 /* Brake pin */);
+    // Motor motor_3(12 /* Speed pin */, 13 /* Direction pin */, 11 /* Brake pin */);
+    Motor motor_0{3, 4, 2};
+    Motor motor_1{6, 7, 5};
+    Motor motor_2{9, 10, 8};
+    Motor motor_3{12, 13, 11};
+
   public:
     Motor motors[4] = { motor_0, motor_1, motor_2, motor_3 };
 
@@ -54,8 +64,8 @@ struct Movement {
     }
 
     void move_north(unsigned int speed) {
-      motors[0].spin(-1*speed);
-      motors[1].spin(-1*speed);
+      motors[0].spin(-speed);
+      motors[1].spin(-speed);
       motors[2].spin(speed);
       motors[3].spin(speed);
     }
@@ -63,15 +73,9 @@ struct Movement {
     void move_south(unsigned int speed) {
       motors[0].spin(speed);
       motors[1].spin(speed);
-      motors[2].spin(-1*speed);
-      motors[3].spin(-1*speed);
+      motors[2].spin(-speed);
+      motors[3].spin(-speed);
     }
-
-  private:
-    Motor motor_0(3 /* Speed pin */, 4 /* Direction pin */, 2 /* Brake pin */);
-    Motor motor_1(6 /* Speed pin */, 7 /* Direction pin */, 5 /* Brake pin */);
-    Motor motor_2(9 /* Speed pin */, 10 /* Direction pin */, 8 /* Brake pin */);
-    Motor motor_3(12 /* Speed pin */, 13 /* Direction pin */, 11 /* Brake pin */);
 
 };
 
@@ -92,15 +96,15 @@ void setup() {
 }
 
 void loop() {
-  Movement m();
+  Movement m;
 
   m.move_north(50);
-
+  delay(1000);
 }
 
 
 void point_north(int speed) {
-  Movement m();
+  Movement m;
   if (is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
     m.brake();
   } else if (readCompass() > 0){
@@ -117,14 +121,6 @@ boolean is_between(int lower, int upper, int x){
   }
   return false;
 }
-
-
-
-
-
-
-
-
 
 
 
