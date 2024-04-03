@@ -12,7 +12,7 @@ private:
   unsigned int br_pin;
 
 public:
-
+  
   // Constructor (optional)
   Motor(unsigned int pin_, unsigned int dir_pin_, unsigned int br_pin_)
     : s_pin(pin_), dir_pin(dir_pin_), br_pin(br_pin_) {
@@ -36,6 +36,7 @@ public:
     analogWrite(s_pin, 0);
     digitalWrite(br_pin, LOW);
   }
+
 };
 
 
@@ -49,23 +50,11 @@ Motor motors[4] = { motor_0, motor_1, motor_2, motor_3 };
 
 void setup() {
   Serial.begin(9600);
-
   initialize();
 }
 
-void loop() {
-  if (is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
-    brake();
-  } else if (readCompass() > 0){
-    rotate(210);
-  } else {
-    rotate(-210);
-  }
 
-}
-
-
-
+int motorSpeed = 150;
 
 boolean is_between(int lower, int upper, int x){
   if (lower < x && x < upper){
@@ -87,13 +76,64 @@ void brake() {
 }
 
 
+void loop() {
+ /* translateNorth();
+  delay(1000);  
+  
+  brake();
+  delay(500);  
+  
+  translateEast();
+  delay(1000); 
+  
+  brake();
+  delay(500);  
+  
+  translateSouth();
+  delay(1000);  
+  
+  brake();
+  delay(500);  
+*/
+  translateWest();
+  delay(1000);  
+
+  brake();
+  delay(500);
+}
 
 
+void translateNorth() {
+  //WORKS
+  motor_0.spin(motorSpeed);
+  motor_1.spin(motorSpeed);
+  motor_2.spin(-motorSpeed);
+  motor_3.spin(-motorSpeed);
+}
 
+void translateSouth() {
+  //WORKS
+  motor_0.spin(-motorSpeed);
+  motor_1.spin(-motorSpeed);
+  motor_2.spin(motorSpeed);
+  motor_3.spin(motorSpeed);
+}
 
+void translateWest() {
+  //FIX
+  motor_0.spin(-motorSpeed);
+  motor_1.spin(motorSpeed);
+  motor_2.spin(-motorSpeed);
+  motor_3.spin(motorSpeed);
+}
 
-
-
+void translateEast() {
+  //FIX
+  motor_0.spin(motorSpeed);
+  motor_1.spin(-motorSpeed);
+  motor_2.spin(motorSpeed);
+  motor_3.spin(-motorSpeed);
+}
 
 
 void initialize() {
