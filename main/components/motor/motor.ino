@@ -5,46 +5,84 @@ const unsigned int COMPASS_BUFF = 15;  // +/- 15
 Adafruit_BNO055 bno;
 
 struct Motor {
-  // Member variables
-private:
-  unsigned int s_pin;
-  unsigned int dir_pin;
-  unsigned int br_pin;
+  private:
+    unsigned int s_pin;
+    unsigned int dir_pin;
+    unsigned int br_pin;
 
-public:
+  public:
 
-  // Constructor (optional)
-  Motor(unsigned int pin_, unsigned int dir_pin_, unsigned int br_pin_)
-    : s_pin(pin_), dir_pin(dir_pin_), br_pin(br_pin_) {
-    pinMode(s_pin, OUTPUT);
-    pinMode(dir_pin, OUTPUT);
-    pinMode(br_pin, OUTPUT);
-  }
-
-  void spin(int s) {
-    digitalWrite(br_pin, HIGH);
-    if (s < 0) {
-      analogWrite(s_pin, s * -1);
-      digitalWrite(dir_pin, HIGH);
-    } else {
-      analogWrite(s_pin, s);
-      digitalWrite(dir_pin, LOW);
+    Motor(unsigned int pin_, unsigned int dir_pin_, unsigned int br_pin_)
+      : s_pin(pin_), dir_pin(dir_pin_), br_pin(br_pin_) {
+      pinMode(s_pin, OUTPUT);
+      pinMode(dir_pin, OUTPUT);
+      pinMode(br_pin, OUTPUT);
     }
-  }
 
-  void brake() {
-    analogWrite(s_pin, 0);
-    digitalWrite(br_pin, LOW);
-  }
+    // When facing the wheel, positive int = clockwise (left) and negative int = counterclockwise (right).
+    void spin(int s) {
+      digitalWrite(br_pin, HIGH);
+      if (s < 0) {
+        analogWrite(s_pin, s * -1);
+        digitalWrite(dir_pin, HIGH);
+      } else {
+        analogWrite(s_pin, s);
+        digitalWrite(dir_pin, LOW);
+      }
+    }
+
+    void brake() {
+      analogWrite(s_pin, 0);
+      digitalWrite(br_pin, LOW);
+    }
+};
+
+struct Movement {
+  public:
+    Motor motors[4] = { motor_0, motor_1, motor_2, motor_3 };
+
+    void rotate(int speed) {
+      for (int i = 0; i < 4; i++) {
+        motors[i].spin(speed);
+      }
+    }
+
+    void brake() {
+      for (int i = 0; i < 4; i++) {
+        motors[i].brake();
+      }
+    }
+
+    void move_north(unsigned int speed) {
+      motors[0].spin(-1*speed)
+      motors[1].spin(-1*speed)
+      motors[2].spin(speed)
+      motors[3].spin(speed)
+    }
+
+    void move_south(unsigned int speed) {
+      motors[0].spin(speed)
+      motors[1].spin(speed)
+      motors[2].spin(-1*speed)
+      motors[3].spin(-1*speed)
+    }
+
+  private:
+    Motor motor_0(3 /* Speed pin */, 4 /* Direction pin */, 2 /* Brake pin */);
+    Motor motor_1(6 /* Speed pin */, 7 /* Direction pin */, 5 /* Brake pin */);
+    Motor motor_2(9 /* Speed pin */, 10 /* Direction pin */, 8 /* Brake pin */);
+    Motor motor_3(12 /* Speed pin */, 13 /* Direction pin */, 11 /* Brake pin */);
+
 };
 
 
-Motor motor_0(3 /* Speed pin */, 4 /* Direction pin */, 2 /* Brake pin */);
-Motor motor_1(6 /* Speed pin */, 7 /* Direction pin */, 5 /* Brake pin */);
-Motor motor_2(9 /* Speed pin */, 10 /* Direction pin */, 8 /* Brake pin */);
-Motor motor_3(12 /* Speed pin */, 13 /* Direction pin */, 11 /* Brake pin */);
 
-Motor motors[4] = { motor_0, motor_1, motor_2, motor_3 };
+
+
+
+
+
+
 
 
 void setup() {
@@ -54,17 +92,23 @@ void setup() {
 }
 
 void loop() {
-  if (is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
-    brake();
-  } else if (readCompass() > 0){
-    rotate(210);
-  } else {
-    rotate(-210);
-  }
+  Movement m();
+
+  m.move_north(50);
 
 }
 
 
+void point_north(int speed) {
+  Movement m();
+  if (is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
+    m.brake();
+  } else if (readCompass() > 0){
+    m.rotate(210);
+  } else {
+    m.rotate(-210);
+  }
+}
 
 
 boolean is_between(int lower, int upper, int x){
@@ -72,18 +116,6 @@ boolean is_between(int lower, int upper, int x){
     return true;
   }
   return false;
-}
-
-void rotate(int speed) {
-  for (int i = 0; i < 4; i++) {
-    motors[i].spin(speed);
-  }
-}
-
-void brake() {
-  for (int i = 0; i < 4; i++) {
-    motors[i].brake();
-  }
 }
 
 
