@@ -1,6 +1,6 @@
 #include <Adafruit_BNO055.h>
 
-const unsigned int COMPASS_BUFF = 10;  // +/- 15
+const unsigned int COMPASS_BUFF = 20;  // +/- 15
 
 Adafruit_BNO055 bno;
 
@@ -89,14 +89,19 @@ void setup() {
 }
 
 void loop() {
-  point_north(220);
-  m.move_north(150);
+  // if(isNorth()){
+  m.move_north(200);
+  // } else{
+
+  // point_north(200);
+  // }
 }
 
 
 void point_north(int speed) {
   Movement m;
   while (!is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
+    Serial.println(readCompass());
     if (readCompass() > 0) {
       m.rotate(speed);
     } 
@@ -104,19 +109,15 @@ void point_north(int speed) {
       m.rotate(-speed);
     }
   }
-  m.brake();
 }
 
 
 boolean is_between(int lower, int upper, int x){
-  if (lower < x && x < upper){
-    return true;
-  }
-  return false;
+  return lower < x && x < upper;
 }
 
 boolean isNorth(){
-  if(is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())) return true;
+  return is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass());
 }
 
 void initialize() {
