@@ -1,6 +1,6 @@
 #include <Adafruit_BNO055.h>
 
-const unsigned int COMPASS_BUFF = 20;  // +/- 15
+const unsigned int COMPASS_BUFF = 15; 
 
 Adafruit_BNO055 bno;
 
@@ -89,19 +89,21 @@ void setup() {
 }
 
 void loop() {
-  // if(isNorth()){
-  m.move_north(200);
-  // } else{
-
-  // point_north(200);
-  // }
+  if(isNorth()){
+    m.move_north(150);
+  } else{
+    point_north(230);
+  }
 }
 
 
-void point_north(int speed) {
+void point_north(int baseSpeed) {
   Movement m;
+  int speed = 0;
   while (!is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
+    speed = (int)(baseSpeed - abs(abs(readCompass()) - COMPASS_BUFF) * 0.3);
     Serial.println(readCompass());
+    Serial.println(speed);
     if (readCompass() > 0) {
       m.rotate(speed);
     } 
@@ -109,6 +111,9 @@ void point_north(int speed) {
       m.rotate(-speed);
     }
   }
+
+  m.brake();
+  Serial.println("end");
 }
 
 
@@ -127,8 +132,7 @@ void initialize() {
   if (!bno.begin()) {
     /* There was a problem detecting the BNO055 ... check your connections */
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR! 🤓🤓🤓");
-    while (1)
-      ;
+    while (1);
   }
 
 
