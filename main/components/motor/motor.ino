@@ -1,5 +1,6 @@
 #include <Adafruit_BNO055.h>
 
+
 const unsigned int COMPASS_BUFF = 7;
 
 struct Motor {
@@ -66,10 +67,10 @@ struct Compass {
 
 struct Movement {
   private:
-    Motor motor_0{3, 4, 2};
-    Motor motor_1{6, 7, 5};
-    Motor motor_2{9, 10, 8};
-    Motor motor_3{12, 13, 11};
+    Motor motor_0{1, 3, 2};
+    Motor motor_1{7, 9, 8};
+    Motor motor_2{28, 35, 29};
+    Motor motor_3{4, 6, 5};
   public:
     
     Motor motors[4] = { motor_0, motor_1, motor_2, motor_3 };
@@ -86,21 +87,21 @@ struct Movement {
       }
     }
 
-    void moveNorth(unsigned int speed, Compass &compass) {
-      pointNorth(210, compass);
+    void moveNorth(unsigned int speed/*, Compass &compass*/) {
+      // pointNorth(210, compass);
 
-      motors[0].spin(-speed);
+      motors[0].spin(speed);
       motors[1].spin(-speed);
-      motors[2].spin(speed);
+      motors[2].spin(-speed);
       motors[3].spin(speed);
     }
 
-    void moveSouth(unsigned int speed, Compass &compass) {
-      pointNorth(210, compass);
+    void moveSouth(unsigned int speed/*, Compass &compass*/) {
+      // pointNorth(210, compass);
 
-      motors[0].spin(speed);
+      motors[0].spin(-speed);
       motors[1].spin(speed);
-      motors[2].spin(-speed);
+      motors[2].spin(speed);
       motors[3].spin(-speed);
     }
 
@@ -120,21 +121,27 @@ struct Movement {
 };
 
 Movement m;
-Compass compass;
+// Compass compass;
+Motor motor_0{1, 3, 2};
+Motor motor_1{7, 9, 8};
+Motor motor_2{28, 35, 29};
+Motor motor_3{4, 6, 5};
 
 void setup() {
   Serial.begin(9600);
 
-  compass.initialize();
+  // compass.initialize();
 }
 
 void loop() {
-  m.moveNorth(150, compass);
+  m.moveNorth(95/*, compass*/);
   delay(500);
   m.brake();
   delay(500);
-  m.moveSouth(150, compass);
+  m.moveSouth(95/*, compass*/);
   delay(500);
   m.brake();
   delay(500);
+
+  // motor_3.spin(95);
 }
