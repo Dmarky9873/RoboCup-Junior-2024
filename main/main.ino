@@ -10,7 +10,7 @@ Movement m;
 
 void loop() {
   if(isBallInFront()){
-    m.moveNorth();
+    m.moveNorth(150);
     Serial.println("in front");
   } else {
     m.brake();

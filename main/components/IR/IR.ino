@@ -11,7 +11,10 @@ void setup() {
 }
 
 void loop() {
-  
+  int* readings = getReadingsArr();
+  for(int i = 0; i<15; i++) {
+    Serial.println(readings[i]);
+  }
 
 }
 
