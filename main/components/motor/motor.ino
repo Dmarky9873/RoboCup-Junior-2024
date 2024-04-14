@@ -1,5 +1,6 @@
 #include <Adafruit_BNO055.h>
 
+const unsigned int COMPASS_BUFF = 15;  // +/- 15
 
 const unsigned int COMPASS_BUFF = 7;
 
@@ -105,27 +106,17 @@ struct Movement {
       motors[3].spin(-speed);
     }
 
-    void pointNorth(int baseSpeed, Compass &compass) {
-      int speed = 0;
-      while (!compass.isBetween(COMPASS_BUFF * -1, COMPASS_BUFF, compass.readCompass())) {
-        speed = (int)(baseSpeed - abs(abs(compass.readCompass()) - COMPASS_BUFF) * 0.3);
-        Serial.println(speed);
-        if (compass.readCompass() > 0) {
-          rotate(speed);
-        } else {
-          rotate(-speed);
-        }
-      }
-      brake();
-    }
 };
 
-Movement m;
-// Compass compass;
-Motor motor_0{1, 3, 2};
-Motor motor_1{7, 9, 8};
-Motor motor_2{28, 35, 29};
-Motor motor_3{4, 6, 5};
+
+
+
+
+
+
+
+
+
 
 void setup() {
   Serial.begin(9600);
@@ -134,14 +125,58 @@ void setup() {
 }
 
 void loop() {
-  m.moveNorth(95/*, compass*/);
-  delay(500);
-  m.brake();
-  delay(500);
-  m.moveSouth(95/*, compass*/);
-  delay(500);
-  m.brake();
-  delay(500);
+  Movement m;
 
-  // motor_3.spin(95);
+  m.move_north(50);
+  delay(1000);
+}
+
+
+void point_north(int speed) {
+  Movement m;
+  if (is_between(COMPASS_BUFF*-1, COMPASS_BUFF, readCompass())){
+    m.brake();
+  } else if (readCompass() > 0){
+    m.rotate(210);
+  } else {
+    m.rotate(-210);
+  }
+}
+
+
+boolean is_between(int lower, int upper, int x){
+  if (lower < x && x < upper){
+    return true;
+  }
+  return false;
+}
+
+
+
+void initialize() {
+  bno = Adafruit_BNO055(55);
+
+  /* Initialise the sensor */
+  if (!bno.begin()) {
+    /* There was a problem detecting the BNO055 ... check your connections */
+    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR! 🤓🤓🤓");
+    while (1)
+      ;
+  }
+
+
+  bno.setExtCrystalUse(true);
+}
+
+float readCompass() {
+  /* Get a new sensor event */
+  sensors_event_t event;
+  bno.getEvent(&event);
+
+  int angle = event.orientation.x;
+
+  if (angle > 180){
+    return angle - 360;
+  }
+  return angle;
 }
