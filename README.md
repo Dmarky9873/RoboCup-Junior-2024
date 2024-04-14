@@ -15,7 +15,7 @@ Robot designed by the Crestwood Lions hardware team: Hayden Patience, Tristan Sa
    * Designs and models
      * PCB designs
      * 3D models
-3. Lessons and takeaways
+3. Lessons and Takeaways
 4. Conclusion
 
 ## Introduction
