@@ -1,5 +1,5 @@
-int pins[] = { 41, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27 };
-int NUM_IR_PINS = 13;
+int pins[] = { 41, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 40 };
+int NUM_IR_PINS = 14;
 
 template <typename T, size_t N>
 size_t arrayLength(const T (&)[N]);
@@ -13,7 +13,9 @@ void setup() {
 
 void loop() {
   // printPWsArr();
-  printReadingsArr();
+  // printReadingsArr();
+  Serial.println(getDirectionToMove());
+  delay(50);
 }
 
 bool isBallInFront() {
@@ -76,10 +78,29 @@ void printPWsArr() {
  *  south-west: Back and to the left of the robot; move south-west/back-left.
  *  north-west: Front and to the left of the robot; move west/left.
  */
-String getBallLocation() {
-  String location;
-  if(1){
-    Serial.println("works");
+String getDirectionToMove() {
+  String location = "No ball detected";
+  int* readings = getReadingsArr();
+
+  if (readings[1] && readings[2]){
+    location = "north";
+  } 
+  else if (
+    (readings[5] && readings[6]) || 
+    (readings[9] && readings[10] && readings[8]) || 
+    (readings[9] && readings[8]) || 
+    (readings[7] && readings[8]) ||
+    (readings[3] && readings[4]) || (readings[2] && readings[2] && readings[3])
+  ) {
+    location = "south-east";
   }
+  else if (
+    (readings[11] && readings[10]) || 
+    (readings[11] || readings[12] || readings[13])
+  ){
+    location = "south-west";
+  }
+
+  return location;
 }
 
