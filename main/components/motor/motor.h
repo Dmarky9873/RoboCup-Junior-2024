@@ -1,6 +1,7 @@
 #include <Adafruit_BNO055.h>
+#include "Timer.h"
 
-const unsigned int COMPASS_BUFF = 7;
+const unsigned int COMPASS_BUFF = 12;
 
 struct Motor {
   unsigned int s_pin;
@@ -35,7 +36,7 @@ struct Compass {
   Adafruit_BNO055 bno;
 
   void initialize() {
-    bno = Adafruit_BNO055(55);
+    bno = Adafruit_BNO055(55, 0x28, &Wire2);
     if (!bno.begin()) {
       Serial.println("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR! 🤓🤓🤓");
       while(1);
@@ -92,6 +93,127 @@ struct Movement {
 
 
   public:
+
+    void test() {
+      Timer timer(MILLIS);
+      timer.start();
+      int startTime = timer.read();
+
+      //north
+
+      while (timer.read() - startTime < 1000) {
+        moveNorth(150);
+      }
+
+      startTime = timer.read();
+
+      while (timer.read() - startTime < 1000) {
+        moveSouth(150);
+      }
+
+    //   startTime = timer.read();
+
+    //   //north east
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveNorthEast(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveSouthWest(150);
+    //   }
+
+    //   //east
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveEast(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveWest(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   //south east
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveSouthEast(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveNorthWest(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   //south
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveSouth(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveNorth(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   //south west
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveSouthWest(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveNorthEast(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   //west
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveWest(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveEast(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   //north west
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveNorthWest(150);
+    //   }
+
+    //   startTime = timer.read();
+
+    //   while (timer.read() - startTime < 1000) {
+    //     moveSouthEast(150);
+    //   }
+    }
+
+    void initMotor() {
+      compass.initialize();
+    }
+
     void rotate(int speed) {
       for (int i = 0; i < 4; i++) {
         motors[i].spin(speed);
@@ -104,47 +226,100 @@ struct Movement {
       }
     }
 
-    void moveNorth(unsigned int speed/*, Compass &compass*/) {
-      // pointNorth(210, compass);
-
-      motors[0].spin(speed);
-      motors[1].spin(speed);
-      motors[2].spin(-speed);
-      motors[3].spin(-speed);
+    void moveNorth(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].spin(speed);
+        motors[1].spin(speed);
+        motors[2].spin(-(int)(speed * 1.5));
+        motors[3].spin(-(int)(speed * 1.5));
+      }
     }
 
-    void moveSouth(unsigned int speed/*, Compass &compass*/) {
-      // pointNorth(210, compass);
-
-      motors[0].spin(-speed);
-      motors[1].spin(-speed);
-      motors[2].spin(speed);
-      motors[3].spin(speed);
+    void moveSouth(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].spin(-speed);
+        motors[1].spin(-speed);
+        motors[2].spin(speed);
+        motors[3].spin(speed);
+      }
     }
 
-    void moveEast(unsigned int speed/*, Compass &compass*/) {
-      // pointNorth(210, compass);
-
-      motors[0].spin(speed);
-      motors[1].spin(-speed);
-      motors[2].spin(-speed);
-      motors[3].spin(speed);
+    void moveEast(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].spin(speed);
+        motors[1].spin(-speed);
+        motors[2].spin(-speed);
+        motors[3].spin(speed);
+      }
     }
 
-    void moveWest(unsigned int speed/*, Compass &compass*/) {
-      // pointNorth(210, compass);
+    void moveWest(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].spin(-speed);
+        motors[1].spin(speed);
+        motors[2].spin(speed);
+        motors[3].spin(-speed);
+      }
+    }
 
-      motors[0].spin(-speed);
-      motors[1].spin(speed);
-      motors[2].spin(speed);
-      motors[3].spin(-speed);
+    void moveNorthEast(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].spin(speed);
+        motors[1].brake();
+        motors[2].spin(-speed);
+        motors[3].brake();
+      }
+    }
+
+    void moveNorthWest(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].brake();
+        motors[1].spin(speed);
+        motors[2].brake();
+        motors[3].spin(-speed);
+      }
+    }
+
+    void moveSouthEast(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].brake();
+        motors[1].spin(-speed);
+        motors[2].brake();
+        motors[3].spin(speed);
+      }
+    }
+
+    void moveSouthWest(unsigned int speed) {
+      if (!compass.isNorth()) {
+        pointNorth(200, compass);
+      }
+      else {
+        motors[0].spin(-speed);
+        motors[1].brake();
+        motors[2].spin(speed);
+        motors[3].brake();
+      }
     }
 
 };
-
-
-
-void initMotor() {
-
-  // compass.initialize();
-}

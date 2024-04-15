@@ -1,31 +1,18 @@
 #include "./components/motor/motor.h"
 #include "./components/IR/IRSensor.h"
 
+Movement m;
+
 void setup() {
   Serial.begin(9600);
   initIR();
+  m.initMotor();
 }
 
-Movement m;
-
 void loop() {
-  m.pointNorth(200, Compass &compass)
+  
 
-  // m.moveNorth(150);
-  // delay(750);
-  // m.brake();
-
-  // m.moveEast(150);
-  // delay(750);
-  // m.brake();
-
-  // m.moveSouth(150);
-  // delay(750);
-  // m.brake();
-
-  // m.moveWest(150);
-  // delay(750);
-  // m.brake();
+  // m.test();
 
   // if(isBallInFront()){
   //   m.moveNorth();
