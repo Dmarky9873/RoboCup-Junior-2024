@@ -1,6 +1,5 @@
 #include <Adafruit_BNO055.h>
 
-
 const unsigned int COMPASS_BUFF = 7;
 
 struct Motor {
@@ -39,7 +38,7 @@ struct Compass {
     bno = Adafruit_BNO055(55);
     if (!bno.begin()) {
       Serial.println("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR! 🤓🤓🤓");
-      while (1);
+      while(1);
     }
     bno.setExtCrystalUse(true);
   }
@@ -74,7 +73,10 @@ struct Movement {
 
     Motor motors[4] = { motor_0, motor_1, motor_2, motor_3 };
 
+    Compass compass;
+
     void pointNorth(int baseSpeed, Compass &compass) {
+      //baseSpeed: 200
       int speed = 0;
       while (!compass.isBetween(COMPASS_BUFF * -1, COMPASS_BUFF, compass.readCompass())) {
         speed = (int)(baseSpeed - abs(abs(compass.readCompass()) - COMPASS_BUFF) * 0.3);
@@ -90,8 +92,6 @@ struct Movement {
 
 
   public:
-    
-
     void rotate(int speed) {
       for (int i = 0; i < 4; i++) {
         motors[i].spin(speed);
@@ -108,12 +108,30 @@ struct Movement {
       // pointNorth(210, compass);
 
       motors[0].spin(speed);
+      motors[1].spin(speed);
+      motors[2].spin(-speed);
+      motors[3].spin(-speed);
+    }
+
+    void moveSouth(unsigned int speed/*, Compass &compass*/) {
+      // pointNorth(210, compass);
+
+      motors[0].spin(-speed);
+      motors[1].spin(-speed);
+      motors[2].spin(speed);
+      motors[3].spin(speed);
+    }
+
+    void moveEast(unsigned int speed/*, Compass &compass*/) {
+      // pointNorth(210, compass);
+
+      motors[0].spin(speed);
       motors[1].spin(-speed);
       motors[2].spin(-speed);
       motors[3].spin(speed);
     }
 
-    void moveSouth(unsigned int speed/*, Compass &compass*/) {
+    void moveWest(unsigned int speed/*, Compass &compass*/) {
       // pointNorth(210, compass);
 
       motors[0].spin(-speed);

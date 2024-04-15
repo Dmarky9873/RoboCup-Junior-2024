@@ -9,11 +9,29 @@ void setup() {
 Movement m;
 
 void loop() {
-  if(isBallInFront()){
-    m.moveNorth(150);
-    Serial.println("in front");
-  } else {
-    m.brake();
-    Serial.println("not");
-  }
+  m.pointNorth(200, Compass &compass)
+
+  // m.moveNorth(150);
+  // delay(750);
+  // m.brake();
+
+  // m.moveEast(150);
+  // delay(750);
+  // m.brake();
+
+  // m.moveSouth(150);
+  // delay(750);
+  // m.brake();
+
+  // m.moveWest(150);
+  // delay(750);
+  // m.brake();
+
+  // if(isBallInFront()){
+  //   m.moveNorth();
+  //   Serial.println("in front");
+  // } else {
+  //   m.brake();
+  //   Serial.println("not");
+  // }
 }
