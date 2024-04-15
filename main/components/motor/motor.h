@@ -1,7 +1,7 @@
 #include <Adafruit_BNO055.h>
 #include "Timer.h"
 
-const unsigned int COMPASS_BUFF = 12;
+const unsigned int COMPASS_BUFF = 10;
 
 struct Motor {
   unsigned int s_pin;
@@ -228,19 +228,19 @@ struct Movement {
 
     void moveNorth(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].spin(speed);
         motors[1].spin(speed);
-        motors[2].spin(-(int)(speed * 1.5));
-        motors[3].spin(-(int)(speed * 1.5));
+        motors[2].spin(-(int)(speed * 0.6));
+        motors[3].spin(-(int)(speed * 0.6));
       }
     }
 
     void moveSouth(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].spin(-speed);
@@ -252,7 +252,7 @@ struct Movement {
 
     void moveEast(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].spin(speed);
@@ -264,7 +264,7 @@ struct Movement {
 
     void moveWest(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].spin(-speed);
@@ -276,7 +276,7 @@ struct Movement {
 
     void moveNorthEast(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].spin(speed);
@@ -288,7 +288,7 @@ struct Movement {
 
     void moveNorthWest(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].brake();
@@ -300,7 +300,7 @@ struct Movement {
 
     void moveSouthEast(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].brake();
@@ -312,7 +312,7 @@ struct Movement {
 
     void moveSouthWest(unsigned int speed) {
       if (!compass.isNorth()) {
-        pointNorth(200, compass);
+        pointNorth(230, compass);
       }
       else {
         motors[0].spin(-speed);
