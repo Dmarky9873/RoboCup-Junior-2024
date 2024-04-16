@@ -6,10 +6,10 @@ Robot designed by the Crestwood Lions hardware team: Hayden Patience, Tristan Sa
 1. Introduction
 2. Documentation
    * Components
+     * Shift Register
      * Color Sensor
      * Compass
      * Motors
-     * Shift Register
    * Strategy
      * Master flowchart
    * Designs and models
@@ -27,25 +27,27 @@ RoboCup is an international robotics tournament held in Europe every year. More 
 ## Documentation
 
 ## 1. Components
-### Components Superclass
-#### Description
-The components class is a parent class for every component. Every component has shared features (multiple pins, a name, etc.), and this parent class condenses them all into a single constructor for ease of use.
-#### Public:
-* `setUp()`: Initializes each pin in `pin_numbers[]` to their respective mode in `modes[]`. No returns or params. 
-* `getPinMode(uint8_t pin)`: Gets the pinMode of param `pin`. Returns `INPUT`, `OUTPUT`, or `UNKNOWN_PIN`.
-* `Component(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)`: Constructor, sets private variables to params.
-#### Private:
-* `int num_pins`: Number of pins used within the component.
-* `String name`: Name of the component.
-* `int *pin_nums`: A parallel array to `mds`, array of pin numbers used within the component.
-* `uint8_t *mds`: A parallel array to `pin_nums`, array of modes used within the component.
 
 ### Shift Register
 #### Description
-The shift register class is a class for the daisy-chained shift registers used within the robot. Their job is to turn the 24 inputs of the IR sensors into just three pins. The shift registers output the bits of info through an info bus, enabling the microcontroller to read the bits one-by-one.
+The shift register class is a class for the daisy-chained shift registers used within the robot for the IR sensors. Their job is to turn the 16 readings of the IR sensors into just three pins (seen in the constructor). The shift registers output the bits of info through an info bus, enabling the microcontroller to read the bits one-by-one.
+<br> <br>
+We did not end up using this class because of a hardware oversight. Not realizing that the IR sensors output analog values rather than digital, we forgot to impliment analog-to-digital converters on the outputs, which made the outputted readings of the shift-registers garbage. It is still a great piece of code that should be made into a library.
 #### Public:
-* `readchips(int numOfChips, int sizeOfChips)`: Reads the values stored in a set of daisy-chained shift registers.
-* `Shift_Register(int pin_numbers[], uint8_t modes[], int number_of_pins, String component_name)`: Constructor, sets private variables to params.
+##### Methods:
+* `readchips(int numOfChips, int sizeOfChips)`: reads the values stored in a set of daisy-chained shift registers.
+* `Shift_Register(int ioSelect_, int clockPulse_, int dataPin_)`: Constructor for the `Shift_Register` class.
+  * Parameters:
+    * `ioSelect_`: the pin which will tell the shift register whether to accept input or produce output.
+    * `clockPulse_`: the clock pin.
+    * `dataPin_`: the data-bus pin.
+  * Returns: `void`
+* `int** readChips(int numOfChips, int sizeOfChips)`: reads the values stored in a set of daisy-chained shift registers.
+  * `numOfChips`: the number of chips daisy-chained.
+  * `sizeOfChips`: the size of the chips.
+* Returns: a 2D integer array with dimentions [`numOfChips` x `sizeOfChips`] where each value is a value once stored on the corresponding chips address.
 #### Private:
-* `int CHIPSIZE`: Number of bits of data that the chip can manage.
-* `ioType(int io_type)`: Sets the chip to accept parallel or serial input.
+##### Variables:
+* `const int CHIPSIZE`: Number of bits of data that the chip can manage. Always equal to 8.
+* `const int NUM_CHIPS`: Number of chips that are daisy-chained together. In our use-case, it is 2.
+* `void ioType(int io_type)`: Sets the chip to accept parallel or serial input.
