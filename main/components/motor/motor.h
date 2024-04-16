@@ -1,7 +1,7 @@
 #include <Adafruit_BNO055.h>
 #include "Timer.h"
 
-const unsigned int COMPASS_BUFF = 10;
+const unsigned int COMPASS_BUFF = 13;
 
 struct Motor {
   unsigned int s_pin;
@@ -76,12 +76,13 @@ struct Movement {
 
     Compass compass;
 
-    void pointNorth(int baseSpeed, Compass &compass) {
+  public:
+
+    void pointNorth(int baseSpeed) {
       //baseSpeed: 200
       int speed = 0;
       while (!compass.isBetween(COMPASS_BUFF * -1, COMPASS_BUFF, compass.readCompass())) {
         speed = (int)(baseSpeed - abs(abs(compass.readCompass()) - COMPASS_BUFF) * 0.3);
-        Serial.println(speed);
         if (compass.readCompass() > 0) {
           rotate(speed);
         } else {
@@ -91,25 +92,25 @@ struct Movement {
       brake();
     }
 
-
-  public:
-
     void test() {
-      Timer timer(MILLIS);
-      timer.start();
-      int startTime = timer.read();
+
+      moveNorth(150);
+
+      // Timer timer(MILLIS);
+      // timer.start();
+      // int startTime = timer.read();
 
       //north
 
-      while (timer.read() - startTime < 1000) {
-        moveNorth(150);
-      }
+      // while (timer.read() - startTime < 1000) {
+      //   moveNorth(150);
+      // }
 
-      startTime = timer.read();
+      // startTime = timer.read();
 
-      while (timer.read() - startTime < 1000) {
-        moveSouth(150);
-      }
+      // while (timer.read() - startTime < 1000) {
+      //   moveSouth(150);
+      // }
 
     //   startTime = timer.read();
 
@@ -227,99 +228,75 @@ struct Movement {
     }
 
     void moveNorth(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].spin(speed);
-        motors[1].spin(speed);
-        motors[2].spin(-(int)(speed * 0.6));
-        motors[3].spin(-(int)(speed * 0.6));
-      }
+      pointNorth(210);
+
+      motors[0].spin(speed);
+      motors[1].spin(speed);
+      motors[2].spin(-speed);
+      motors[3].spin(-speed);
     }
 
     void moveSouth(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].spin(-speed);
-        motors[1].spin(-speed);
-        motors[2].spin(speed);
-        motors[3].spin(speed);
-      }
+      pointNorth(210);
+
+      motors[0].spin(-speed);
+      motors[1].spin(-speed);
+      motors[2].spin(speed);
+      motors[3].spin(speed);
     }
 
     void moveEast(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].spin(speed);
-        motors[1].spin(-speed);
-        motors[2].spin(-speed);
-        motors[3].spin(speed);
-      }
+      pointNorth(210);
+
+      motors[0].spin(speed);
+      motors[1].spin(-speed);
+      motors[2].spin(-speed);
+      motors[3].spin(speed);
     }
 
     void moveWest(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].spin(-speed);
-        motors[1].spin(speed);
-        motors[2].spin(speed);
-        motors[3].spin(-speed);
-      }
+      pointNorth(210);
+
+      motors[0].spin(-speed);
+      motors[1].spin(speed);
+      motors[2].spin(speed);
+      motors[3].spin(-speed);
     }
 
     void moveNorthEast(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].spin(speed);
-        motors[1].brake();
-        motors[2].spin(-speed);
-        motors[3].brake();
-      }
+      pointNorth(210);
+
+      motors[0].spin(speed);
+      motors[1].brake();
+      motors[2].spin(-speed);
+      motors[3].brake();
     }
 
     void moveNorthWest(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].brake();
-        motors[1].spin(speed);
-        motors[2].brake();
-        motors[3].spin(-speed);
-      }
+      pointNorth(210);
+
+      motors[0].brake();
+      motors[1].spin(speed);
+      motors[2].brake();
+      motors[3].spin(-speed);
     }
 
     void moveSouthEast(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].brake();
-        motors[1].spin(-speed);
-        motors[2].brake();
-        motors[3].spin(speed);
-      }
+      pointNorth(210);
+
+      motors[0].brake();
+      motors[1].spin(-speed);
+      motors[2].brake();
+      motors[3].spin(speed);
     }
 
     void moveSouthWest(unsigned int speed) {
-      if (!compass.isNorth()) {
-        pointNorth(230, compass);
-      }
-      else {
-        motors[0].spin(-speed);
-        motors[1].brake();
-        motors[2].spin(speed);
-        motors[3].brake();
-      }
+      pointNorth(210);
+
+      motors[0].spin(-speed);
+      motors[1].brake();
+      motors[2].spin(speed);
+      motors[3].brake();
     }
 
 };
