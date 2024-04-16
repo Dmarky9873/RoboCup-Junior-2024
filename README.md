@@ -6,10 +6,10 @@ Robot designed by the Crestwood Lions hardware team: Hayden Patience, Tristan Sa
 1. Introduction
 2. Documentation
    * Components
+     * Shift Register
      * Color Sensor
      * Compass
      * Motors
-     * Shift Register
    * Strategy
      * Master flowchart
    * Designs and models
