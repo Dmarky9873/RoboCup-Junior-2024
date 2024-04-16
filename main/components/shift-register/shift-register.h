@@ -2,7 +2,15 @@ class Shift_Register {
 
   public: 
     /**
-      * TODO: Comment this
+      * Constructor for the `Shift_Register` class.
+      *
+      * @param ioSelect_ the pin which will tell the shift register whether to accept input or produce output.
+      *
+      * @param clockPulse_ the clock pin.
+      *
+      * @param dataPin_ the data-bus pin.
+      *
+      * @returns void
       */
     Shift_Register(int ioSelect_, int clockPulse_, int dataPin_) {
       ioSelect = ioSelect_;
