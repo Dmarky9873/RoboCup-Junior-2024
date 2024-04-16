@@ -35,13 +35,17 @@ The shift register class is a class for the daisy-chained shift registers used w
 <br> <br>
 We did not end up using this class because of a hardware oversight. Not realizing that the IR sensors output analog values rather than digital, we forgot to impliment analog-to-digital converters on the outputs, which made the outputted readings of the shift-registers garbage. It is still a great piece of code that should be made into a library.
 #### Public:
-* `readchips(int numOfChips, int sizeOfChips)`: Reads the values stored in a set of daisy-chained shift registers.
+* `readchips(int numOfChips, int sizeOfChips)`: reads the values stored in a set of daisy-chained shift registers.
 * `Shift_Register(int ioSelect_, int clockPulse_, int dataPin_)`: Constructor for the `Shift_Register` class.
   * Parameters:
     * `ioSelect_`: the pin which will tell the shift register whether to accept input or produce output.
     * `clockPulse_`: the clock pin.
     * `dataPin_`: the data-bus pin.
   * Returns: `void`
+* `int** readChips(int numOfChips, int sizeOfChips)`: reads the values stored in a set of daisy-chained shift registers.
+  * `numOfChips`: the number of chips daisy-chained.
+  * `sizeOfChips`: the size of the chips.
+* Returns: a 2D integer array with dimentions [`numOfChips` x `sizeOfChips`] where each value is a value once stored on the corresponding chips address.
 #### Private:
 * `int CHIPSIZE`: Number of bits of data that the chip can manage.
 * `ioType(int io_type)`: Sets the chip to accept parallel or serial input.
