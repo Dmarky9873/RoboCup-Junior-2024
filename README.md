@@ -27,7 +27,6 @@ RoboCup is an international robotics tournament held in Europe every year. More 
 ## Documentation
 
 ## 1. Components
-### Components Superclass
 
 ### Shift Register
 #### Description
