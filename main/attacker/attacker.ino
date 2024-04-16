@@ -18,6 +18,12 @@ void loop() {
   if (dir == "north") {
     m.moveNorth(MOVE_SPEED);
   }
+  else if (dir == "north-east") {
+    m.moveNorthEast(MOVE_SPEED);
+  }
+  else if (dir == "north-west") {
+    m.moveNorthWest(MOVE_SPEED);
+  }
   else if (dir == "east") {
     m.moveEast(MOVE_SPEED);
   }

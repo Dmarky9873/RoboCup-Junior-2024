@@ -1,4 +1,4 @@
-int pins[] = { 41, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 40 };
+int pins[] = { 41, 14, 10, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 40 };
 int NUM_IR_PINS = 14;
 
 template <typename T, size_t N>
@@ -143,7 +143,7 @@ String getDirectionToMove() {
   }
 
   //detect direct south
-  else if (frontDetection() < 1 && southDetection() >= 2) {
+  else if (frontDetection() < 1 && southDetection() >= 200) {
     return "south-east";
   }
 
@@ -156,19 +156,19 @@ String getDirectionToMove() {
   }
 
   //detect far/close diagonal
-  else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 1 && frontDetection() > 2) {
+  else if (isDetected() && readings[30] == 0 && readings[0] == 1 && leftDetection() < 1 && frontDetection() > 1) {
     return "west";
   }
 
-  else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 1 && frontDetection() <= 2) {
+  else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 1) {
     return "north-west";
   }
 
-  else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 1 && frontDetection() > 2) {
+  else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 1 && frontDetection() > 1) {
     return "east";
   }
 
-  else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 1 && frontDetection() <= 2) {
+  else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 1) {
     return "north-east";
   }
 
