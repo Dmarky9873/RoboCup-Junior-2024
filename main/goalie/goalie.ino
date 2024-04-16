@@ -1,5 +1,5 @@
-#include "../components/motor/motor.h"
-#include "../components/IR/IRSensor.h"
+#include "./components/motor/motor.h"
+#include "./components/IR/IRSensor.h"
 
 const int MOVE_SPEED = 125;
 
@@ -13,16 +13,16 @@ void setup() {
 
 void loop() {
   String dir = getDirectionToMove();
-  Serial.println(dir);
 
-  if (dir == "east" || dir == "south-east") {
+  if (dir == "east" || (dir == "south-east")) {
+    Serial.println("moving east");
     m.moveEast(MOVE_SPEED);
-  }
-  else if (dir == "west" || dir == "south-west") {
+  } else if ((dir == "west") || (dir == "south-west")) {
+    Serial.println("moving west");
     m.moveWest(MOVE_SPEED);
-  }
-  else {
+  } else {
     // Serial.println("Direction not found");
     m.brake();
     //implement search pattern
   }
+}
