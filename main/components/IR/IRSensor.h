@@ -129,7 +129,7 @@ bool isDetected() {
  
 String getDirectionToMove() {
   int* readings = getReadingsArr();
-  printReadingsArr();
+  // printReadingsArr();
 
   delay(10); //combat motor overheating (the larger the delay, the less accurate)
 

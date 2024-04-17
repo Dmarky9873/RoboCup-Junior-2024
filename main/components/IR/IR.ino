@@ -14,7 +14,7 @@ void setup() {
 void loop() {
   // printPWsArr();
   // printReadingsArr();
-  Serial.println(getDirectionToMove());
+  printReadingsArr();
   delay(50);
 }
 
@@ -78,29 +78,29 @@ void printPWsArr() {
  *  south-west: Back and to the left of the robot; move south-west/back-left.
  *  north-west: Front and to the left of the robot; move west/left.
  */
-String getDirectionToMove() {
-  String location = "No ball detected";
-  int* readings = getReadingsArr();
+// String getDirectionToMove() {
+//   String location = "No ball detected";
+//   int* readings = getReadingsArr();
 
-  if (readings[1] && readings[2]){
-    location = "north";
-  } 
-  else if (
-    (readings[5] && readings[6]) || 
-    (readings[9] && readings[10] && readings[8]) || 
-    (readings[9] && readings[8]) || 
-    (readings[7] && readings[8]) ||
-    (readings[3] && readings[4]) || (readings[2] && readings[2] && readings[3])
-  ) {
-    location = "south-east";
-  }
-  else if (
-    (readings[11] && readings[10]) || 
-    (readings[11] || readings[12] || readings[13])
-  ){
-    location = "south-west";
-  }
+//   if (readings[1] && readings[2]){
+//     location = "north";
+//   } 
+//   else if (
+//     (readings[5] && readings[6]) || 
+//     (readings[9] && readings[10] && readings[8]) || 
+//     (readings[9] && readings[8]) || 
+//     (readings[7] && readings[8]) ||
+//     (readings[3] && readings[4]) || (readings[2] && readings[2] && readings[3])
+//   ) {
+//     location = "south-east";
+//   }
+//   else if (
+//     (readings[11] && readings[10]) || 
+//     (readings[11] || readings[12] || readings[13])
+//   ){
+//     location = "south-west";
+//   }
 
-  return location;
-}
+//   return location;
+// }
 
