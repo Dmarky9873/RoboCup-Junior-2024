@@ -13,7 +13,7 @@ void setup() {
 
 void loop() {
   String dir = getDirectionToMove();
-  Serial.println(dir);
+  // Serial.println(dir);
 
   if (dir == "north") {
     m.moveNorth(MOVE_SPEED);
