@@ -35,25 +35,37 @@ The shift register class is a class for the daisy-chained shift registers used w
 We did not end up using this class because of a hardware oversight. Not realizing that the IR sensors output analog values rather than digital, we forgot to impliment analog-to-digital converters on the outputs, which made the outputted readings of the shift-registers garbage. It is still a great piece of code that should be made into a library.
 #### Public:
 ##### Methods:
-* `readchips(int numOfChips, int sizeOfChips)`: reads the values stored in a set of daisy-chained shift registers.
+* `readchips(int numOfChips, int sizeOfChips)`: Reads the values stored in a set of daisy-chained shift registers.
 * `Shift_Register(int ioSelect_, int clockPulse_, int dataPin_)`: Constructor for the `Shift_Register` class.
   * Parameters:
-    * `ioSelect_`: the pin which will tell the shift register whether to accept input or produce output.
-    * `clockPulse_`: the clock pin.
-    * `dataPin_`: the data-bus pin.
-  * Returns: `void`
+    * `ioSelect_`: The pin which will tell the shift register whether to accept input or produce output.
+    * `clockPulse_`: The clock pin.
+    * `dataPin_`: The data-bus pin.
 * `int** readChips(int numOfChips, int sizeOfChips)`: reads the values stored in a set of daisy-chained shift registers.
-  * `numOfChips`: the number of chips daisy-chained.
-  * `sizeOfChips`: the size of the chips.
-* Returns: a 2D integer array with dimentions [`numOfChips` x `sizeOfChips`] where each value is a value once stored on the corresponding chips address.
+  * Parameters:
+    * `numOfChips`: The number of chips daisy-chained.
+    * `sizeOfChips`: The size of the chips.
+  * Returns: A 2D integer array with dimentions [`numOfChips` x `sizeOfChips`] where each value is a value once stored on the corresponding chips address.
+* `void printChips(int secondsDelay)`: Nicely formats and prints the 2D array read in the daisy-chained shift registers.
+  * Parameters:
+    * `secondsDelay`: Number of miliseconds to delay in-between print statements.
 #### Private:
 ##### Variables:
 * `const int CHIPSIZE`: Number of bits of data that the chip can manage. Always equal to 8.
 * `const int NUM_CHIPS`: Number of chips that are daisy-chained together. In our use-case, it is 2.
 * `int dataPin`: The pin on which data is travelling.
 * `int ioSelect`: The pin which will tell the shift register whether to accept input or produce output.
+##### Methods:
 * `void ioType(int io_type)`: Sets the chip to accept parallel or serial input.
+* `void clkPulse()`: Pulses the clock. Writes the clock pin to low then high, once, in rapid succession.
+* `int* readChip(int sizeOfChips)`: Reads all 8 bits of the serial output of a shift register.
+  * Parameters:
+    * `sizeOfChips`: The size of the chips being read.
+  * Returns: Integer array of size `CHIPSIZE` where each int is a respective chip bit.
+* `void chipParallelIn()`: Shifts in parallel data to the shift register.
 
 ### IR Sensors
 #### Description
 The IR sensors are in charge of telling the robot where the ball is. It can also, somewhat primatively, tell the robot how far away the ball is as well. This is done by seeing how many pins view the ball - if more pins see the ball, it is likely the ball is farther. On our robot, there are 16 pins. Originally, we were going to use shift registers to make it easier to read all 16 pieces of data. However, due to a hardware oversight, we were no longer able to use them. We ended up just hardwiring the IR sensors directly to the Teensy, costly using 16 analog pins. This caused further complications down the line, which are elaborated on in the lessons and takeaways section.
+#### Public:
+##### Methods
