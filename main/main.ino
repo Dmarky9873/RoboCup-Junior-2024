@@ -24,12 +24,6 @@ void loop() {
   else if (dir == "north-west") {
     m.moveNorthWest(MOVE_SPEED);
   }
-  else if (dir == "east") {
-    m.moveEast(MOVE_SPEED);
-  }
-  else if (dir == "west") {
-    m.moveWest(MOVE_SPEED);
-  }
   else if (dir == "south-east") {
     m.moveSouthEast(MOVE_SPEED);
   }

@@ -131,15 +131,10 @@ String getDirectionToMove() {
   int* readings = getReadingsArr();
   printReadingsArr();
 
-  delay(5); //combat motor overheating (the larger the delay, the less accurate)
-
-  //detect north
-  if ((readings[0] == 1 && readings[3] == 1) && (readings[1] == 1 || readings[2] == 1)) {
-    return "north";
-  }
+  delay(10); //combat motor overheating (the larger the delay, the less accurate)
 
   //detect indirectly south
-  else if (isDetected() && frontDetection() < 1 && southDetection() == 1) {
+  if (isDetected() && frontDetection() < 1 && southDetection() == 1) {
     return "south";
   }
 
@@ -149,31 +144,25 @@ String getDirectionToMove() {
   }
 
   //detect far/close diagonal
-  else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 1 && frontDetection() > 1) {
-    return "west";
-  }
-
   else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 1) {
     return "north-west";
   }
 
-  else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 1 && frontDetection() > 1) {
-    return "east";
-  }
-
-  else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 1) {
+  else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 2) {
     return "north-east";
   }
 
-  else if (rightDetection() >= 1) {
+  else if (rightDetection() >= 2) {
     return "south-east";
   }
+
+  //this is one because of two missing IRs
   else if (leftDetection() >= 1) {
     return "south-west";
   }
 
-  //detect if far and north (front-sensors should detect at least one)
-  else if (frontDetection() > 0) {
+  //detect north (far and close)
+  if ((readings[0] == 1 || readings[1] == 1) && (readings[2] == 1 || readings[3] == 1)) {
     return "north";
   }
 
