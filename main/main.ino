@@ -13,7 +13,7 @@ void setup() {
 
 void loop() {
   String dir = getDirectionToMove();
-  Serial.println(dir);
+  // Serial.println(dir);
 
   if (dir == "north") {
     m.moveNorth(MOVE_SPEED);
@@ -43,6 +43,7 @@ void loop() {
     // Serial.println("Direction not found");
     m.brake();
     //implement search pattern
+    
   }
 
   // m.test();

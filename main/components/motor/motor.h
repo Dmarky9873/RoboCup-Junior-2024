@@ -94,7 +94,7 @@ struct Movement {
 
     void test() {
 
-      moveNorth(150);
+      motors[2].spin(150);
 
       // Timer timer(MILLIS);
       // timer.start();

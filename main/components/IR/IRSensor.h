@@ -129,9 +129,9 @@ bool isDetected() {
  
 String getDirectionToMove() {
   int* readings = getReadingsArr();
-  printReadingsArr();
+  // printReadingsArr();
 
-  delay(10); //combat motor overheating (the larger the delay, the less accurate)
+  delay(5); //combat motor overheating (the larger the delay, the less accurate)
 
   //detect north
   if ((readings[0] == 1 && readings[3] == 1) && (readings[1] == 1 || readings[2] == 1)) {
@@ -146,14 +146,6 @@ String getDirectionToMove() {
   //detect direct south
   else if (frontDetection() < 1 && southDetection() >= 2) {
     return "south-east";
-  }
-
-  //detect ~150 degrees direction
-  else if (rightDetection() >= 1) {
-    return "south-east";
-  }
-  else if (leftDetection() >= 1) {
-    return "south-west";
   }
 
   //detect far/close diagonal
@@ -171,6 +163,13 @@ String getDirectionToMove() {
 
   else if (isDetected() && readings[0] == 0 && readings[3] == 1 && rightDetection() < 1) {
     return "north-east";
+  }
+
+  else if (rightDetection() >= 1) {
+    return "south-east";
+  }
+  else if (leftDetection() >= 1) {
+    return "south-west";
   }
 
   //detect if far and north (front-sensors should detect at least one)
