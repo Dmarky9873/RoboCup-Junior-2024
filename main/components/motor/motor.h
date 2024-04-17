@@ -79,7 +79,7 @@ struct Movement {
   public:
 
     void pointNorth(int baseSpeed) {
-      //baseSpeed: 200
+      //baseSpeed: 210
       int speed = 0;
       while (!compass.isBetween(COMPASS_BUFF * -1, COMPASS_BUFF, compass.readCompass())) {
         speed = (int)(baseSpeed - abs(abs(compass.readCompass()) - COMPASS_BUFF) * 0.3);
@@ -94,7 +94,7 @@ struct Movement {
 
     void test() {
 
-      motors[2].spin(150);
+      motors[0].spin(150);
 
       // Timer timer(MILLIS);
       // timer.start();
