@@ -19,7 +19,7 @@ struct Camera {
     blocks = pixy.ccc.getBlocks();
 
     if (blocks) {
-      int32_t midX = pixy.ccc.blocks[0].m_x;l
+      int32_t midX = pixy.ccc.blocks[0].m_x;
       int32_t midY = pixy.ccc.blocks[0].m_y;
 
       if (midX > centerX - middleThreshold && midX < centerX + middleThreshold && midY > centerY - middleThreshold && midY < centerY + middleThreshold) {
