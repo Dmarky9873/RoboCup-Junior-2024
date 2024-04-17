@@ -126,6 +126,7 @@ bool isDetected() {
  *  south-west: Back and to the left of the robot; move south-west/back-left.
  *  north-west: Front and to the left of the robot; move west/left.
  */
+ 
 String getDirectionToMove() {
   int* readings = getReadingsArr();
   printReadingsArr();
@@ -143,7 +144,7 @@ String getDirectionToMove() {
   }
 
   //detect direct south
-  else if (frontDetection() < 1 && southDetection() >= 200) {
+  else if (frontDetection() < 1 && southDetection() >= 2) {
     return "south-east";
   }
 
@@ -156,7 +157,7 @@ String getDirectionToMove() {
   }
 
   //detect far/close diagonal
-  else if (isDetected() && readings[30] == 0 && readings[0] == 1 && leftDetection() < 1 && frontDetection() > 1) {
+  else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 1 && frontDetection() > 1) {
     return "west";
   }
 
@@ -178,33 +179,5 @@ String getDirectionToMove() {
   }
 
   return "none";
-
-  // String location = "No ball detected";
-  // int* readings = getReadingsArr();
-
-  // printReadingsArr();
-
-  // if (readings[1] && readings[2]){
-  //   location = "north";
-  // } 
-  // else if (
-  //   (readings[5] && readings[6]) || 
-  //   (readings[9] && readings[10] && readings[8]) || 
-  //   (readings[9] && readings[8]) || 
-  //   (readings[7] && readings[8]) ||
-  //   (readings[3] && readings[4]) || (readings[2] && readings[2] && readings[3])
-  // ) {
-  //   location = "south-east";
-  // }
-  // else if (
-  //   (readings[11] && readings[10]) || 
-  //   (readings[11] || readings[12] || readings[13])
-  // ){
-  //   location = "south-west";
-  // }
-
-  // delay(5);
-
-  // return location;
 }
 
