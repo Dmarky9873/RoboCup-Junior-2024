@@ -50,4 +50,10 @@ We did not end up using this class because of a hardware oversight. Not realizin
 ##### Variables:
 * `const int CHIPSIZE`: Number of bits of data that the chip can manage. Always equal to 8.
 * `const int NUM_CHIPS`: Number of chips that are daisy-chained together. In our use-case, it is 2.
+* `int dataPin`: The pin on which data is travelling.
+* `int ioSelect`: The pin which will tell the shift register whether to accept input or produce output.
 * `void ioType(int io_type)`: Sets the chip to accept parallel or serial input.
+
+### IR Sensors
+#### Description
+The IR sensors are in charge of telling the robot where the ball is. It can also, somewhat primatively, tell the robot how far away the ball is as well. This is done by seeing how many pins view the ball - if more pins see the ball, it is likely the ball is farther. On our robot, there are 16 pins. Originally, we were going to use shift registers to make it easier to read all 16 pieces of data. However, due to a hardware oversight, we were no longer able to use them. We ended up just hardwiring the IR sensors directly to the Teensy, costly using 16 analog pins. This caused further complications down the line, which are elaborated on in the lessons and takeaways section.
