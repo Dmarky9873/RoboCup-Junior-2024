@@ -41,8 +41,12 @@ class Shift_Register {
 
       return chipValues;
     }
-
-    void printChips(int seconds_delay){
+    /**
+      * Nicely formats and prints the 2D array read in the daisy-chained shift registers.
+      * 
+      * @param miliSecondsDelay the number of miliseconds to delay in between print statements (recommended to be >= 10)
+      */
+    void printChips(int secondsDelay){
       int** chipValues = readChips(NUM_CHIPS, CHIPSIZE);
       for (int chip = 0; chip < NUM_CHIPS; chip++) {
         Serial.print("Chip #");
@@ -55,7 +59,7 @@ class Shift_Register {
         Serial.print("]");
         Serial.println();
       }
-      delay(seconds_delay);
+      delay(miliSecondsDelay*1000);
     }
 
   private:
