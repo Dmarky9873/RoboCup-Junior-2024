@@ -228,7 +228,7 @@ struct Movement {
     }
 
     void moveNorth(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].spin(speed);
       motors[1].spin(speed);
@@ -237,7 +237,7 @@ struct Movement {
     }
 
     void moveSouth(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].spin(-speed);
       motors[1].spin(-speed);
@@ -246,7 +246,7 @@ struct Movement {
     }
 
     void moveEast(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].spin(speed);
       motors[1].spin(-speed);
@@ -255,7 +255,7 @@ struct Movement {
     }
 
     void moveWest(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].spin(-speed);
       motors[1].spin(speed);
@@ -264,7 +264,7 @@ struct Movement {
     }
 
     void moveNorthEast(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].spin(speed);
       motors[1].brake();
@@ -273,7 +273,7 @@ struct Movement {
     }
 
     void moveNorthWest(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].brake();
       motors[1].spin(speed);
@@ -282,7 +282,7 @@ struct Movement {
     }
 
     void moveSouthEast(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].brake();
       motors[1].spin(-speed);
@@ -291,7 +291,7 @@ struct Movement {
     }
 
     void moveSouthWest(unsigned int speed) {
-      pointNorth(210);
+      pointNorth(220);
 
       motors[0].spin(-speed);
       motors[1].brake();

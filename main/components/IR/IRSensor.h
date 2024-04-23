@@ -61,7 +61,7 @@ void printPWsArr() {
 int frontDetection() {
   int* arr = getReadingsArr();
   int count = 0;
-  for(int i = 0; i < 4; i++) {
+  for(int i = 0; i < 3; i++) {
     if (arr[i] == 1) {
       count++;
     }
@@ -73,7 +73,7 @@ int frontDetection() {
 int leftDetection() {
   int* arr = getReadingsArr();
   int count = 0;
-  for(int i = 10; i <= 12; i++) {
+  for(int i = 11; i <= 13; i++) {
     if (arr[i] == 1) {
       count++;
     }
@@ -129,7 +129,7 @@ bool isDetected() {
  
 String getDirectionToMove() {
   int* readings = getReadingsArr();
-  // printReadingsArr();
+  printReadingsArr();
 
   delay(10); //combat motor overheating (the larger the delay, the less accurate)
 
@@ -144,7 +144,7 @@ String getDirectionToMove() {
   }
 
   //detect far/close diagonal
-  else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 1) {
+  else if (isDetected() && readings[3] == 0 && readings[0] == 1 && leftDetection() < 2) {
     return "north-west";
   }
 
@@ -152,18 +152,25 @@ String getDirectionToMove() {
     return "north-east";
   }
 
+  else if (readings[0] == 0 && readings[3] == 1 && rightDetection() >= 1) {
+    return "east";
+  }
+
+  //detect north (far and close)
+  else if ((readings[0] == 1 || readings[1] == 1) && (readings[2] == 1 || readings[3] == 1)) {
+    return "north";
+  }
+
   else if (rightDetection() >= 2) {
     return "south-east";
   }
 
-  //this is one because of two missing IRs
-  else if (leftDetection() >= 1) {
-    return "south-west";
+  else if (readings[3] == 0 && readings[0] == 1 && leftDetection() >= 2) {
+    return "west";
   }
 
-  //detect north (far and close)
-  if ((readings[0] == 1 || readings[1] == 1) && (readings[2] == 1 || readings[3] == 1)) {
-    return "north";
+  else if (leftDetection() >= 1) {
+    return "south-west";
   }
 
   return "none";
