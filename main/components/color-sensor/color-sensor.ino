@@ -8,7 +8,7 @@
 
 const int csPins[] = {10, 36, 37};
 
-// Adafruit_MCP3008 chips[NUM_CHIPS];
+Adafruit_MCP3008 chips[NUM_CHIPS];
 Adafruit_MCP3008 mcp;
 
 /* 
@@ -24,37 +24,36 @@ void setup() {
   Serial.begin(9600);
   SPI.begin();
   Serial.println("START");
-
   mcp.begin(csPins[0]);
+  for (int i = 0; i < NUM_CHIPS; i++) {
+    if (chips[i].begin(csPins[i])) {
+      Serial.print("Chip ");
+      Serial.print(i + 1);
+      Serial.println(" START");
+    }
+  }
 
-
-  // for (int i = 0; i < NUM_CHIPS; i++) {
-  //   if (chips[i].begin(csPins[i])) {
-  //     Serial.print("Chip ");
-  //     Serial.print(i + 1);
-  //     Serial.println(" START");
-  //   }
-  // }
+  
 }
 
 void loop() {
-  // for (int i = 0; i < NUM_CHIPS; i++) {
-  //   Serial.println();
-  //   Serial.print("Chip ");
-  //   Serial.print(i + 1);
-  //   Serial.println();
-  //   for (int j = 0; j < NUM_CHANNELS; j++) {
-  //     int val = chips[i].readADC(j);
-  //     Serial.print("Channel ");
-  //     Serial.print(j);
-  //     Serial.print(": ");
-  //     Serial.println(val);
-  //   }
-  // }
+  for (int i = 0; i < NUM_CHIPS; i++) {
+    Serial.println();
+    Serial.print("Chip ");
+    Serial.print(i + 1);
+    Serial.println();
+    for (int j = 0; j < NUM_CHANNELS; j++) {
+      int val = chips[i].readADC(j);
+      Serial.print("Channel ");
+      Serial.print(j);
+      Serial.print(": ");
+      Serial.println(val);
+    }
+  }
 
   int value = mcp.readADC(0);
   Serial.println(value);
 
 
-  delay(10);
+  delay(1000);
 }
