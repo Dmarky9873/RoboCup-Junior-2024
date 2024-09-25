@@ -36,10 +36,10 @@ double* getPWsArr() {
   return pinReadings;
 }
 
-template <typename T, size_t N>
-size_t arrayLength(const T (&)[N]) {
-  return N;
-}
+// template <typename T, size_t N>
+// size_t arrayLength(const T (&)[N]) {
+//   return N;
+// }
 
 // printing filtered readings array
 void printReadingsArr() {
