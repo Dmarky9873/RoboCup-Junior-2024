@@ -8,6 +8,7 @@ struct Motor {
   unsigned int dir_pin;
   unsigned int br_pin;
 
+  // constructor
   Motor(unsigned int pin_, unsigned int dir_pin_, unsigned int br_pin_)
       : s_pin(pin_), dir_pin(dir_pin_), br_pin(br_pin_) {
       pinMode(s_pin, OUTPUT);
@@ -15,6 +16,7 @@ struct Motor {
       pinMode(br_pin, OUTPUT);
     }
 
+  // moving motor given s speed
   void spin(int s) {
     digitalWrite(br_pin, HIGH);
     if (s < 0) {
@@ -35,6 +37,7 @@ struct Motor {
 struct Compass {
   Adafruit_BNO055 bno;
 
+  // init function
   void initialize() {
     bno = Adafruit_BNO055(55, 0x28, &Wire2);
     if (!bno.begin()) {
@@ -44,6 +47,7 @@ struct Compass {
     bno.setExtCrystalUse(true);
   }
 
+  // read ball angle from robot
   float readCompass() {
     sensors_event_t event;
     bno.getEvent(&event);
@@ -210,7 +214,7 @@ struct Movement {
     //     moveSouthEast(150);
     //   }
     }
-
+    
     void initMotor() {
       compass.initialize();
     }

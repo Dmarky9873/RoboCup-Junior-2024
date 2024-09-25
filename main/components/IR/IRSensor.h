@@ -11,11 +11,13 @@ void initIR() {
   }
 }
 
+// get filtered readings (1s and 0s)
 int* getReadingsArr() {
   int* pinReadings = new int[NUM_IR_PINS];
   double reading;
   for (unsigned int i = 0; i < arrayLength(pins); i++) {
     reading = pulseIn(pins[i], HIGH, 500);
+    // reading filtering
     if (reading > 0.05){
       pinReadings[i] = 1;
     } else {
@@ -25,6 +27,7 @@ int* getReadingsArr() {
   return pinReadings;
 }
 
+// get analog pin readings
 double* getPWsArr() {
   double* pinReadings = new double[NUM_IR_PINS];
   for (unsigned int i = 0; i < arrayLength(pins); i++) {
@@ -38,6 +41,7 @@ size_t arrayLength(const T (&)[N]) {
   return N;
 }
 
+// printing filtered readings array
 void printReadingsArr() {
   int* arr = getReadingsArr();
   Serial.print("[ ");
@@ -48,6 +52,7 @@ void printReadingsArr() {
   Serial.println("]");
 }
 
+// print analog readings array
 void printPWsArr() {
   double* arr = getPWsArr();
   Serial.print("[ ");
@@ -58,9 +63,11 @@ void printPWsArr() {
   Serial.println("]");
 }
 
+// detect readings from front IRs
 int frontDetection() {
   int* arr = getReadingsArr();
   int count = 0;
+  // loop through front IRs
   for(int i = 0; i < 3; i++) {
     if (arr[i] == 1) {
       count++;
@@ -70,9 +77,11 @@ int frontDetection() {
   return count;
 }
 
+// detect readings from left IRs
 int leftDetection() {
   int* arr = getReadingsArr();
   int count = 0;
+  // loop through left IRs
   for(int i = 11; i <= 13; i++) {
     if (arr[i] == 1) {
       count++;
@@ -82,9 +91,11 @@ int leftDetection() {
   return count;
 }
 
+// detect readings from right IRs
 int rightDetection() {
   int* arr = getReadingsArr();
   int count = 0;
+  // loop through right IRs
   for(int i = 4; i <= 7; i++) {
     if (arr[i] == 1) {
       count++;
@@ -94,9 +105,11 @@ int rightDetection() {
   return count;
 }
 
+// detect readings from south IRs
 int southDetection() {
   int* arr = getReadingsArr();
   int count = 0;
+  // loop through south IRs
   for(int i = 8; i <= 10; i++) {
     if (arr[i] == 1) {
       count++;
@@ -106,6 +119,7 @@ int southDetection() {
   return count;
 }
 
+// if the robot sees ANYTHING
 bool isDetected() {
   int* arr = getReadingsArr();
   for(int i = 0; i < NUM_IR_PINS; i++) {
@@ -137,7 +151,7 @@ String getDirectionToMove() {
   if (isDetected() && frontDetection() < 1 && southDetection() == 1) {
     return "south";
   }
-
+  
   //detect direct south
   else if (frontDetection() < 1 && southDetection() >= 2) {
     return "south-east";
